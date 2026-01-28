@@ -20,6 +20,7 @@ export { default as ShowHideField } from './ShowHideField';
 export { default as CustomizeRadio } from './CustomizeRadio';
 export { default as List } from './List';
 export { default as ListItem } from './List/ListItem';
+export { default as RichText } from './RichText';
 
 // Display
 export { default as FieldLabel } from './FieldLabel';

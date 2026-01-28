@@ -6,8 +6,6 @@ import {
 } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import Quill, { QuillOptions } from 'quill';
-import 'quill/dist/quill.snow.css';
-import '../styles/richtext.css';
 import type { BaseFieldProps } from '../types';
 
 export interface RichTextProps extends BaseFieldProps {
