@@ -1,8 +1,8 @@
-import React from 'react';
 import { RawHTML } from '@wordpress/element';
+import React from 'react';
 import { twMerge } from 'tailwind-merge';
-import RadioButton from './RadioButton';
 import type { RadioOption } from '../../types';
+import RadioButton from './RadioButton';
 
 export interface RadioOptionProps {
     option: RadioOption;
@@ -18,7 +18,6 @@ const SimpleRadioOption: React.FC< RadioOptionProps > = ( {
     isSelected,
     onSelect,
     disabled = false,
-    name,
 } ) => {
     const handleKeyDown = ( event: React.KeyboardEvent ) => {
         if ( event.key === 'Enter' || event.key === ' ' ) {
@@ -30,26 +29,30 @@ const SimpleRadioOption: React.FC< RadioOptionProps > = ( {
     };
 
     const borderClass = isSelected
-        ? 'border-[#7047EB] bg-white'
-        : 'border-[#E9E9E9] bg-white hover:border-gray-300';
+        ? 'border-primary bg-white'
+        : 'border-gray-200 bg-white hover:border-gray-300';
     const disabledClass = disabled ? 'opacity-50 cursor-not-allowed' : '';
+
+    const titleText = typeof option.title === 'string' ? option.title : '';
 
     return (
         <div
             className={ twMerge(
-                'relative border rounded-[5px] p-[14px] cursor-pointer transition-colors',
+                'relative border rounded-md p-3.5 transition-colors',
                 borderClass,
-                disabledClass
+                disabledClass,
+                disabled ? 'cursor-not-allowed' : 'cursor-pointer'
             ) }
             onClick={ ! disabled ? onSelect : undefined }
             onKeyDown={ handleKeyDown }
             role="radio"
             aria-checked={ isSelected }
-            tabIndex={ 0 }
+            aria-label={ titleText }
+            tabIndex={ disabled ? -1 : 0 }
         >
             <div className="flex items-start justify-between">
                 <div className="flex-1">
-                    <h3 className="font-semibold text-[14px] text-[#25252D] leading-[1.3] mb-1">
+                    <h3 className="font-semibold text-sm text-gray-900 leading-snug mb-1">
                         { typeof option.title === 'string' ? (
                             <RawHTML>{ option.title }</RawHTML>
                         ) : (
@@ -57,7 +60,7 @@ const SimpleRadioOption: React.FC< RadioOptionProps > = ( {
                         ) }
                     </h3>
                     { option.description && (
-                        <div className="font-normal text-[12px] text-[#788383] leading-[1.4]">
+                        <div className="font-normal text-xs text-gray-600 leading-relaxed">
                             { typeof option.description === 'string' ? (
                                 <RawHTML>{ option.description }</RawHTML>
                             ) : (

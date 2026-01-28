@@ -1,5 +1,3 @@
-import { __ } from '@wordpress/i18n';
-
 type UploadTypes = {
     onSelect: ( value: any ) => void;
     children: React.ReactNode;
@@ -22,9 +20,9 @@ const MediaUploader = ( {
     const uploadHandler = () => {
         // @ts-ignore
         const mediaFrame = wp.media( {
-            title: title || __( 'Select or Upload Media', 'dokan-lite' ),
+            title: title || 'Select or Upload Media',
             button: {
-                text: buttonText || __( 'Use this media' ),
+                text: buttonText || 'Use this media',
             },
             multiple, // Set to true to allow multiple selection
         } );

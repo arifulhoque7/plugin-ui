@@ -16,22 +16,22 @@ const variantConfig = {
     info: {
         color: 'blue',
         type: 'info',
-        className: 'dokan-alert-info',
+        className: 'alert-info',
     },
     warning: {
         color: 'yellow',
         type: 'warning',
-        className: 'dokan-alert-warning',
+        className: 'alert-warning',
     },
     success: {
         color: 'green',
         type: 'success',
-        className: 'dokan-alert-success',
+        className: 'alert-success',
     },
     danger: {
         color: 'red',
         type: 'danger',
-        className: 'dokan-alert-danger',
+        className: 'alert-danger',
     },
 } as const;
 

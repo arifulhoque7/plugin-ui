@@ -17,27 +17,27 @@ export interface DokanBadgeProps extends Partial< BadgeProps > {
 const variantConfig = {
     primary: {
         color: 'blue',
-        className: 'dokan-badge-primary',
+        className: 'badge-primary',
     },
     secondary: {
         color: 'gray',
-        className: 'dokan-badge-secondary',
+        className: 'badge-secondary',
     },
     info: {
         color: 'blue',
-        className: 'dokan-badge-info',
+        className: 'badge-info',
     },
     warning: {
         color: 'yellow',
-        className: 'dokan-badge-warning',
+        className: 'badge-warning',
     },
     success: {
         color: 'green',
-        className: 'dokan-badge-success',
+        className: 'badge-success',
     },
     danger: {
         color: 'red',
-        className: 'dokan-badge-danger',
+        className: 'badge-danger',
     },
 } as const;
 

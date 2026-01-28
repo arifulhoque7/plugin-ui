@@ -1,9 +1,8 @@
-import { useState, useEffect, useCallback } from '@wordpress/element';
-import { useDebounce } from '@wordpress/compose';
 import { SimpleInput } from '@getdokan/dokan-ui';
-import { Search, X } from 'lucide-react';
-import { __ } from '@wordpress/i18n';
 import { SimpleInputProps } from '@getdokan/dokan-ui/dist/components/SimpleInput';
+import { useDebounce } from '@wordpress/compose';
+import { useCallback, useEffect, useState } from '@wordpress/element';
+import { Search, X } from 'lucide-react';
 
 // Local utility to extract props type of a component without relying on React/WordPress types
 type PropsOf< T > = T extends ( props: infer P ) => any ? P : never;
@@ -76,8 +75,7 @@ const SearchInput = ( {
                 { ...props }
                 input={ {
                     ...input,
-                    placeholder:
-                        input?.placeholder ?? __( 'Search', 'dokan-lite' ),
+                    placeholder: input?.placeholder ?? 'Search',
                     style: { paddingLeft: 36 },
                 } }
                 className={ `dokan-react-search-input ${

@@ -28,6 +28,347 @@
 
 @import 'tailwindcss';
 
+/* Tailwind v4 Theme Configuration */
+@theme {
+    /* Primary Colors - these create bg-primary, text-primary, border-primary, ring-primary */
+    --color-primary: var(--plugin-ui-primary, #6366f1);
+    --color-primary-hover: var(--plugin-ui-primary-hover, #4f46e5);
+    
+    /* Button Background Colors */
+    --color-btn: var(--plugin-ui-button-background-color, var(--plugin-ui-primary, #6366f1));
+    --color-btn-hover: var(--plugin-ui-button-hover-background-color, var(--plugin-ui-primary-hover, #4f46e5));
+    --color-btn-secondary: var(--plugin-ui-button-secondary-background-color, #ffffff);
+    --color-btn-secondary-hover: var(--plugin-ui-button-secondary-hover-background-color, #DACEFF82);
+    --color-btn-tertiary: var(--plugin-ui-button-tertiary-background-color, transparent);
+    --color-btn-tertiary-hover: var(--plugin-ui-button-tertiary-hover-background-color, #DACEFF82);
+    --color-btn-info: var(--plugin-ui-button-info-background-color, #0B76B7);
+    --color-btn-info-hover: var(--plugin-ui-button-info-hover-background-color, #2795d7);
+    --color-btn-success: var(--plugin-ui-button-success-background-color, #07a67e);
+    --color-btn-success-hover: var(--plugin-ui-button-success-hover-background-color, #11b68c);
+    --color-btn-warning: var(--plugin-ui-button-warning-background-color, #e9a905);
+    --color-btn-warning-hover: var(--plugin-ui-button-warning-hover-background-color, #fbbf24);
+    --color-btn-danger: var(--plugin-ui-button-danger-background-color, #e3050c);
+    --color-btn-danger-hover: var(--plugin-ui-button-danger-hover-background-color, #f23030);
+    
+    /* Status Background Colors */
+    --color-info: var(--plugin-ui-info-background-color, var(--plugin-ui-info, #3b82f6));
+    --color-success: var(--plugin-ui-success-background-color, var(--plugin-ui-success, #10b981));
+    --color-warning: var(--plugin-ui-warning-background-color, var(--plugin-ui-warning, #f59e0b));
+    --color-danger: var(--plugin-ui-danger-background-color, var(--plugin-ui-error, #ef4444));
+    
+    /* Link Colors (text colors) */
+    --color-link: var(--plugin-ui-link-color, var(--plugin-ui-primary, #6366f1));
+    --color-link-hover: var(--plugin-ui-link-hover-color, var(--plugin-ui-sidebar-background-color, #322067));
+    --color-link-info: var(--plugin-ui-info-text-color, #0B76B7);
+    --color-link-info-hover: var(--plugin-ui-info-hover-text-color, #3ea4e1);
+    --color-link-success: var(--plugin-ui-success-text-color, #004434);
+    --color-link-success-hover: var(--plugin-ui-success-hover-text-color, #09a77d);
+    --color-link-warning: var(--plugin-ui-warning-text-color, #9D5425);
+    --color-link-warning-hover: var(--plugin-ui-warning-hover-text-color, #e9a904);
+    --color-link-danger: var(--plugin-ui-danger-text-color, #BC1C21);
+    --color-link-danger-hover: var(--plugin-ui-danger-hover-text-color, #e5292e);
+}
+
+@layer utilities {
+
+    /* Button Styles */
+    .btn {
+        @apply relative transition-colors duration-200 ease-in-out shadow-none;
+        background-color: var(--plugin-ui-button-background-color, var(--plugin-ui-primary, #6366f1));
+        color: var(--plugin-ui-button-text-color, #ffffff);
+        border-color: var(--plugin-ui-button-border-color, var(--plugin-ui-primary, #6366f1));
+        --tw-ring-color: var(--plugin-ui-button-border-color, var(--plugin-ui-primary, #6366f1));
+
+        &:hover {
+            @apply ring-0 ring-offset-0;
+            background-color: var(--plugin-ui-button-hover-background-color, var(--plugin-ui-primary-hover, #4f46e5));
+            color: var(--plugin-ui-button-hover-text-color, #ffffff);
+            border-color: var(--plugin-ui-button-hover-border-color, var(--plugin-ui-primary-hover, #4f46e5));
+        }   
+
+        &:focus {
+            @apply ring-0 ring-offset-0;
+        }
+
+        &:disabled {
+            @apply opacity-60 cursor-not-allowed;
+        }
+    }
+
+    .btn-secondary {
+        @apply relative ring-1 transition-colors duration-200 ease-in-out shadow-none border-none;
+        background-color: var(--plugin-ui-button-secondary-background-color, #ffffff);
+        color: var(--plugin-ui-button-secondary-text-color, #7047EB);
+        border-color: var(--plugin-ui-button-secondary-border-color, var(--plugin-ui-button-border-color, #7047EB));
+        --tw-ring-color: var(--plugin-ui-button-secondary-border-color, var(--plugin-ui-button-border-color, #7047EB));
+
+        &:focus {
+            @apply ring-0 ring-offset-0;
+        }
+
+        &:hover {
+            @apply ring-offset-0;
+            background-color: var(--plugin-ui-button-secondary-hover-background-color, #DACEFF82);
+            color: var(--plugin-ui-button-secondary-hover-text-color, #7047EB);
+            border-color: var(--plugin-ui-button-secondary-hover-border-color, #7047EB);
+            --tw-ring-color: var(--plugin-ui-button-secondary-hover-border-color, #7047EB);
+        }
+    }
+
+    .btn-tertiary {
+        --tw-shadow: 1px 3px 4px 0 rgb(0 0 0 / 0.05);
+
+        @apply relative transition-colors duration-200 ease-in-out;
+        background-color: var(--plugin-ui-button-tertiary-background-color, transparent);
+        color: var(--plugin-ui-button-tertiary-text-color, var(--plugin-ui-button-background-color, #7047EB));
+        border-color: var(--plugin-ui-button-tertiary-border-color, transparent);
+        --tw-ring-color: var(--plugin-ui-button-tertiary-border-color, transparent);
+
+        &:focus {
+            @apply ring-0 ring-offset-0;
+        }
+
+        &:hover {
+            @apply ring-0 ring-offset-0;
+            background-color: var(--plugin-ui-button-tertiary-hover-background-color, #DACEFF82);
+            color: var(--plugin-ui-button-tertiary-hover-text-color, var(--plugin-ui-button-background-color, #7047EB));
+        }
+    }
+
+    /* Status Button Styles */
+    .btn-info {
+        @apply relative transition-colors duration-200;
+        background-color: var(--plugin-ui-button-info-background-color, #0B76B7);
+        color: var(--plugin-ui-button-info-text-color, #ffffff);
+        border-color: var(--plugin-ui-button-info-background-color, #0B76B7);
+        --tw-ring-color: var(--plugin-ui-button-info-background-color, #0B76B7);
+
+        &:focus {
+            @apply ring-0 ring-offset-0;
+        }
+
+        &:hover {
+            @apply ring-0 ring-offset-0;
+            background-color: var(--plugin-ui-button-info-hover-background-color, #2795d7);
+            color: var(--plugin-ui-button-info-hover-text-color, #ffffff);
+            border-color: var(--plugin-ui-button-info-hover-background-color, #2795d7);
+            --tw-ring-color: var(--plugin-ui-button-info-hover-background-color, #2795d7);
+        }
+    }
+
+    .btn-success {
+        @apply relative transition-colors duration-200;
+        background-color: var(--plugin-ui-button-success-background-color, #07a67e);
+        color: var(--plugin-ui-button-success-text-color, #ffffff);
+        border-color: var(--plugin-ui-button-success-background-color, #07a67e);
+        --tw-ring-color: var(--plugin-ui-button-success-background-color, #07a67e);
+
+        &:focus {
+            @apply ring-0 ring-offset-0;
+        }
+
+        &:hover {
+            @apply ring-0 ring-offset-0;
+            background-color: var(--plugin-ui-button-success-hover-background-color, #11b68c);
+            color: var(--plugin-ui-button-success-hover-text-color, #ffffff);
+            border-color: var(--plugin-ui-button-success-hover-background-color, #11b68c);
+            --tw-ring-color: var(--plugin-ui-button-success-hover-background-color, #11b68c);
+        }
+    }
+
+    .btn-warning {
+        @apply relative transition-colors duration-200;
+        background-color: var(--plugin-ui-button-warning-background-color, #e9a905);
+        color: var(--plugin-ui-button-warning-text-color, #ffffff);
+        border-color: var(--plugin-ui-button-warning-background-color, #e9a905);
+        --tw-ring-color: var(--plugin-ui-button-warning-background-color, #e9a905);
+
+        &:focus {
+            @apply ring-0 ring-offset-0;
+        }
+
+        &:hover {
+            @apply ring-0 ring-offset-0;
+            background-color: var(--plugin-ui-button-warning-hover-background-color, #fbbf24);
+            color: var(--plugin-ui-button-warning-hover-text-color, #ffffff);
+            border-color: var(--plugin-ui-button-warning-hover-background-color, #fbbf24);
+            --tw-ring-color: var(--plugin-ui-button-warning-hover-background-color, #fbbf24);
+        }
+    }
+
+    .btn-danger {
+        @apply relative transition-colors duration-200;
+        background-color: var(--plugin-ui-button-danger-background-color, #e3050c);
+        color: var(--plugin-ui-button-danger-text-color, #ffffff);
+        border-color: var(--plugin-ui-button-danger-background-color, #e3050c);
+        --tw-ring-color: var(--plugin-ui-button-danger-background-color, #e3050c);
+
+        &:focus {
+            @apply ring-0 ring-offset-0;
+        }
+
+        &:hover {
+            @apply ring-0 ring-offset-0;
+            background-color: var(--plugin-ui-button-danger-hover-background-color, #f23030);
+            color: var(--plugin-ui-button-danger-hover-text-color, #ffffff);
+            border-color: var(--plugin-ui-button-danger-hover-background-color, #f23030);
+            --tw-ring-color: var(--plugin-ui-button-danger-hover-background-color, #f23030);
+        }
+    }
+
+    /* Text Link Styles */
+    .link {
+        @apply relative text-link no-underline transition-colors duration-200;
+
+        &:hover, &:focus {
+            @apply text-link-hover;
+        }
+    }
+
+    .link-info {
+        @apply relative text-link-info no-underline transition-colors duration-200;
+
+        &:hover, &:focus {
+            @apply text-link-info-hover;
+        }
+    }
+
+    .link-success {
+        @apply relative text-link-success no-underline transition-colors duration-200;
+
+        &:hover, &:focus {
+            @apply text-link-success-hover;
+        }
+    }
+
+    .link-warning {
+        @apply relative text-link-warning no-underline transition-colors duration-200;
+
+        &:hover, &:focus {
+            @apply text-link-warning-hover;
+        }
+    }
+
+    .link-danger {
+        @apply relative text-link-danger no-underline transition-colors duration-200;
+
+        &:hover, &:focus {
+            @apply text-link-danger-hover;
+        }
+    }
+
+    /* Button Sizes */
+    .btn-sm {
+        @apply relative px-2 py-1 text-sm;
+    }
+
+    .btn-lg {
+        @apply relative px-6 py-3 text-lg;
+    }
+
+    /* Badge Styles */
+    .badge-primary {
+        @apply relative ring-1 ring-inset;
+        background-color: var(--plugin-ui-primary-background-color, var(--plugin-ui-primary, #6366f1));
+        color: var(--plugin-ui-primary-text-color, #ffffff);
+        --tw-ring-color: var(--plugin-ui-button-border-color, var(--plugin-ui-primary, #6366f1));
+    }
+
+    .badge-secondary {
+        @apply relative ring-1 ring-inset;
+        background-color: var(--plugin-ui-button-secondary-background-color, #ffffff);
+        color: var(--plugin-ui-button-secondary-text-color, #7047EB);
+        --tw-ring-color: var(--plugin-ui-button-secondary-border-color, var(--plugin-ui-button-border-color, #7047EB));
+    }
+
+    .badge-info {
+        @apply relative ring-1 ring-inset;
+        background-color: var(--plugin-ui-info-background-color, var(--plugin-ui-info, #3b82f6));
+        color: var(--plugin-ui-badge-info-text-color, #fff);
+        --tw-ring-color: var(--plugin-ui-info-border-color, var(--plugin-ui-info, #3b82f6));
+    }
+
+    .badge-success {
+        @apply relative ring-1 ring-inset;
+        background-color: var(--plugin-ui-success-background-color, var(--plugin-ui-success, #10b981));
+        color: var(--plugin-ui-success-text-color, #004434);
+        --tw-ring-color: var(--plugin-ui-success-border-color, var(--plugin-ui-success, #10b981));
+    }
+
+    .badge-warning {
+        @apply relative ring-1 ring-inset;
+        background-color: var(--plugin-ui-warning-background-color, var(--plugin-ui-warning, #f59e0b));
+        color: var(--plugin-ui-badge-warning-text-color, #fff);
+        --tw-ring-color: var(--plugin-ui-warning-border-color, var(--plugin-ui-warning, #f59e0b));
+    }
+
+    .badge-danger {
+        @apply relative ring-1 ring-inset;
+        background-color: var(--plugin-ui-danger-background-color, var(--plugin-ui-error, #ef4444));
+        color: var(--plugin-ui-badge-danger-text-color, #fff);
+        --tw-ring-color: var(--plugin-ui-danger-border-color, var(--plugin-ui-error, #ef4444));
+    }
+
+    /* Alert Styles */
+    .alert-info {
+        @apply relative ring-1 ring-inset;
+        background-color: var(--plugin-ui-info-background-color, var(--plugin-ui-info, #3b82f6));
+        color: var(--plugin-ui-alert-info-text-color, #fff);
+        --tw-ring-color: var(--plugin-ui-info-border-color, var(--plugin-ui-info, #3b82f6));
+    }
+
+    .alert-success {
+        @apply relative ring-1 ring-inset;
+        background-color: var(--plugin-ui-success-background-color, var(--plugin-ui-success, #10b981));
+        color: var(--plugin-ui-alert-success-text-color, #fff);
+        --tw-ring-color: var(--plugin-ui-success-border-color, var(--plugin-ui-success, #10b981));
+    }
+
+    .alert-warning {
+        @apply relative ring-1 ring-inset;
+        background-color: var(--plugin-ui-warning-background-color, var(--plugin-ui-warning, #f59e0b));
+        color: var(--plugin-ui-alert-warning-text-color, #fff);
+        --tw-ring-color: var(--plugin-ui-warning-border-color, var(--plugin-ui-warning, #f59e0b));
+    }
+
+    .alert-danger {
+        @apply relative ring-1 ring-inset;
+        background-color: var(--plugin-ui-danger-background-color, var(--plugin-ui-error, #ef4444));
+        color: var(--plugin-ui-alert-danger-text-color, #fff);
+        --tw-ring-color: var(--plugin-ui-danger-border-color, var(--plugin-ui-error, #ef4444));
+    }
+
+    .react-select input:focus {
+        box-shadow: none !important;
+        outline: none !important;
+    }
+
+    /* class with react-search-input tag input all sibling span background tranparent. */
+    .react-search-input {
+        border-radius: 0 !important;
+        background: white !important;
+        box-shadow: none !important;
+    }
+    /* Target both addon spans around the input (before and after) */
+    .react-search-input ~ span,
+    span:has(+ .react-search-input) {
+        background: white !important;
+    }
+
+    .date-range-picker {
+        .woocommerce-calendar {
+            @apply bg-white border-none;
+
+            .DayPicker_transitionContainer, .CalendarMonth, .CalendarMonthGrid, .DayPicker__horizontal {
+                @apply bg-white;
+            }
+        }
+    }
+    .bg-primary-500 {
+        @apply bg-btn focus:outline-btn;
+    }
+}
+
 /* Focus ring utilities */
 .plugin-ui-focus-ring {
     outline: none;

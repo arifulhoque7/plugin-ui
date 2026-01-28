@@ -19,31 +19,31 @@ export interface DokanButtonProps extends Partial< ButtonProps > {
 const variantConfig = {
     primary: {
         color: 'purple',
-        className: 'dokan-btn',
+        className: 'btn',
     },
     secondary: {
         color: 'blue',
-        className: 'dokan-btn-secondary',
+        className: 'btn-secondary',
     },
     tertiary: {
         color: 'purple',
-        className: 'dokan-btn-tertiary',
+        className: 'btn-tertiary',
     },
     info: {
         color: 'blue',
-        className: 'dokan-btn-info',
+        className: 'btn-info',
     },
     success: {
         color: 'green',
-        className: 'dokan-btn-success',
+        className: 'btn-success',
     },
     warning: {
         color: 'yellow',
-        className: 'dokan-btn-warning',
+        className: 'btn-warning',
     },
     danger: {
         color: 'red',
-        className: 'dokan-btn-danger',
+        className: 'btn-danger',
     },
 } as const;
 

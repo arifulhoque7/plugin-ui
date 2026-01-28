@@ -18,7 +18,7 @@ export const Link = ( {
     return (
         <Component
             href={ Component === 'a' ? href : undefined }
-            className={ twMerge( '!dokan-link', className ) }
+            className={ twMerge( '!link', className ) }
             { ...props }
         >
             { children }

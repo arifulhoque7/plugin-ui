@@ -1,8 +1,7 @@
-import { __ } from '@wordpress/i18n';
 import { twMerge } from 'tailwind-merge';
 // @ts-ignore
 // eslint-disable-next-line import/no-unresolved
-import { snakeCase, kebabCase } from 'lodash';
+import { kebabCase, snakeCase } from 'lodash';
 import DokanButton from './Button';
 
 interface FilterProps {
@@ -24,6 +23,8 @@ interface FilterProps {
     filterBtnClassName?: string;
     /** Additional class names for the reset button */
     resetBtnClassName?: string;
+    filterBtnLabel?: string;
+    resetBtnLabel?: string;
 }
 
 const Filter = ( {
@@ -36,6 +37,8 @@ const Filter = ( {
     className = '',
     filterBtnClassName = '',
     resetBtnClassName = '',
+    filterBtnLabel = 'Filter',
+    resetBtnLabel = 'Reset',
 }: FilterProps ) => {
     const snakeCaseNamespace = snakeCase( namespace );
     const filterId = `dokan_${ snakeCaseNamespace }_filters`;
@@ -61,14 +64,20 @@ const Filter = ( {
             } ) }
 
             { showFilter && (
-                <DokanButton onClick={ onFilter }>
-                    { __( 'Filter', 'dokan-lite' ) }
+                <DokanButton
+                    onClick={ onFilter }
+                    className={ filterBtnClassName }
+                >
+                    { filterBtnLabel }
                 </DokanButton>
             ) }
 
             { showReset && (
-                <DokanButton onClick={ onReset }>
-                    { __( 'Reset', 'dokan-lite' ) }
+                <DokanButton
+                    onClick={ onReset }
+                    className={ resetBtnClassName }
+                >
+                    { resetBtnLabel }
                 </DokanButton>
             ) }
         </div>
