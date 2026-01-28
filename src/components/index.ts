@@ -67,7 +67,8 @@ export {
     AlertTriangle,
 } from 'lucide-react';
 
-// Generic Components
+// Shadcn UI Components
+export * as Shadcn from './ui';
 export { default as Link } from './Link';
 export { default as DebouncedInput } from './DebouncedInput';
 export { default as SearchInput } from './SearchInput';
