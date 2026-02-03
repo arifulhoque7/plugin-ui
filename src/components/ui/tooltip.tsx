@@ -28,7 +28,12 @@ function TooltipTrigger({ ...props }: TooltipPrimitive.Trigger.Props) {
   return <TooltipPrimitive.Trigger data-slot="tooltip-trigger" {...props} />
 }
 
+interface TooltipContentProps extends TooltipPrimitive.Popup.Props {
+  portalClassName?: string;
+}
+
 function TooltipContent({
+  portalClassName,
   className,
   side = "top",
   sideOffset = 4,
@@ -36,14 +41,14 @@ function TooltipContent({
   alignOffset = 0,
   children,
   ...props
-}: TooltipPrimitive.Popup.Props &
+}: TooltipContentProps &
   Pick<
     TooltipPrimitive.Positioner.Props,
     "align" | "alignOffset" | "side" | "sideOffset"
   >) {
   const {mode} = useTheme();
   return (
-    <TooltipPrimitive.Portal className={ `pui-root ${mode}` }>
+    <TooltipPrimitive.Portal className={ cn('pui-root', mode, portalClassName) }>
       <TooltipPrimitive.Positioner
         align={align}
         alignOffset={alignOffset}
