@@ -1,6 +1,5 @@
-import * as React from "react";
+import type { ComponentProps, CSSProperties } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
-import { X } from 'lucide-react';
 
 import { cn } from "@/lib/utils";
 
@@ -22,7 +21,7 @@ const alertVariants = cva(
   }
 )
 
-export interface AlertProps extends React.ComponentProps<"div">, VariantProps<typeof alertVariants> {
+export interface AlertProps extends ComponentProps<"div">, VariantProps<typeof alertVariants> {
   /** Custom background color */
   bgColor?: string
   /** Custom border color */
@@ -46,11 +45,11 @@ function Alert({
   const alertClassName = alertVariants({ variant })
 
   // Build custom styles for per-instance color overrides
-  const customStyle: React.CSSProperties = {
+  const customStyle: CSSProperties = {
     ...(bgColor && { backgroundColor: bgColor }),
     ...(borderColor && { borderColor: borderColor }),
-    ...(titleColor && { '--alert-title-color': titleColor } as React.CSSProperties),
-    ...(descriptionColor && { '--alert-desc-color': descriptionColor } as React.CSSProperties),
+    ...(titleColor && { '--alert-title-color': titleColor } as CSSProperties),
+    ...(descriptionColor && { '--alert-desc-color': descriptionColor } as CSSProperties),
     ...style,
   }
 
@@ -66,7 +65,7 @@ function Alert({
   )
 }
 
-function AlertTitle({ className, ...props }: React.ComponentProps<"div">) {
+function AlertTitle({ className, ...props }: ComponentProps<"div">) {
   return (
     <div
       data-slot="alert-title"
@@ -83,7 +82,7 @@ function AlertTitle({ className, ...props }: React.ComponentProps<"div">) {
 function AlertDescription({
   className,
   ...props
-}: React.ComponentProps<"div">) {
+}: ComponentProps<"div">) {
   return (
     <div
       data-slot="alert-description"
