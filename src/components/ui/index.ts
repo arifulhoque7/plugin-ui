@@ -35,6 +35,7 @@ export { Toggle } from './toggle'
 export { ToggleGroup, ToggleGroupItem } from './toggle-group'
 export { MatricsCard, type MatricsCardProps } from './MatricsCard'
 export { MatricsGroup, MatricsGroupItem, MatricsGroupProps, MatricsGroupItemProps } from './MatricsGroup';
-export { MatricsPill } from './MatricsPill';
+export { MatricsPill, MatricsPillProps } from './MatricsPill';
+export { FileUpload, FileUploadProps } from './FileUpload';
 
 

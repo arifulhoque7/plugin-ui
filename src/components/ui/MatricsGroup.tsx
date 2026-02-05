@@ -73,7 +73,7 @@ export interface MatricsGroupProps extends React.HTMLAttributes<HTMLDivElement> 
 export function MatricsGroup({ children, className, onCardClick = () => {}, ...props }: MatricsGroupProps) {
   return (
     <>
-      <Card className={cn("rounded-[3px] group cursor-pointer p-0 m-0 gap-px flex-col md:flex-row flex-wrap bg-foreground/10", className)} {...props} onClick={ onCardClick ? onCardClick : () => {} }>
+      <Card className={cn("rounded-[3px] group cursor-pointer p-0 m-0 gap-px flex-col md:flex-row flex-wrap bg-border ring-border! shadow-none", className)} {...props} onClick={ onCardClick ? onCardClick : () => {} }>
         {children}
       </Card>
     </>

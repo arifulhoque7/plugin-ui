@@ -29,7 +29,7 @@ export function MatricsCard({
   ...props
 }: MatricsCardProps) {
   return (
-    <Card className={cn("p-5 rounded-[3px] group cursor-pointer", className)} {...props} onClick={ onCardClick ? onCardClick : () => {} }>
+    <Card className={cn("p-5 rounded-[3px] group cursor-pointer bg-background shadow-none! ring-border!", className)} {...props} onClick={ onCardClick ? onCardClick : () => {} }>
       <div className="flex items-center gap-4">
         <div
           className={cn(

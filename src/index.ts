@@ -54,6 +54,8 @@ export {
     MatricsCard,
     MatricsGroup, MatricsGroupItem, MatricsGroupProps, MatricsGroupItemProps,
     MatricsPill,
+    FileUpload,
+    FileUploadProps,
     // Types
     type AlertProps,
     type AlertVariant,

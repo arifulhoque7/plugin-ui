@@ -29,5 +29,6 @@ function MatricsPill( { className = '', Icon, text, countClassName, count, textC
 }
 
 export {
-  MatricsPill
+  MatricsPill,
+  MatricsPillProps,
 }
