@@ -1,7 +1,7 @@
 import * as React from "react";
 import { LucideIcon, Info } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Tooltip, TooltipContent, TooltipTrigger } from "./tooltip";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { Card, CardContent } from "@/components/ui/card";
 
 export interface MatricsGroupItemProps extends React.HTMLAttributes<HTMLDivElement> {

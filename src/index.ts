@@ -51,12 +51,6 @@ export {
     Toggle,
     ToggleGroup,
     ToggleGroupItem,
-    MatricsCard,
-    MatricsGroup, MatricsGroupItem, MatricsGroupProps, MatricsGroupItemProps,
-    MatricsPill,
-    FileUpload,
-    FileUploadProps,
-    FileView, FileViewProps,
     // Types
     type AlertProps,
     type AlertVariant,
@@ -72,8 +66,13 @@ export {
     type LabelProps, type ModalProps, type SeparatorProps,
     type SwitchProps,
     type TextareaProps,
-    type MatricsCardProps
 } from "./components/ui";
+
+export { MatricsCard, type MatricsCardProps } from './components/matrics-card';
+export { MatricsGroup, MatricsGroupItem, type MatricsGroupProps, type MatricsGroupItemProps } from './components/matrics-group';
+export { MatricsPill, type MatricsPillProps } from './components/matrics-pill';
+export { FileUpload, type FileUploadProps } from './components/file-upload';
+export { FileView, type FileViewProps, } from './components/file-view';
 
 // ============================================
 // Theme Presets

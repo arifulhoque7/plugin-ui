@@ -6,7 +6,7 @@
  * with data-pui-plugin attribute for CSS scoping.
  */
 
-@import "tailwindcss" source("../src/components/ui");
+@import "tailwindcss" source("../src/components");
 @import "tw-animate-css";
 
 /* ============================================

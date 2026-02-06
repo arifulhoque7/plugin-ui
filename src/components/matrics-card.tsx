@@ -1,8 +1,8 @@
 import type { HTMLAttributes } from "react";
 import { LucideIcon, Info, MoveDown, MoveUp } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Card } from "./card";
-import { Tooltip, TooltipContent, TooltipTrigger } from "./tooltip";
+import { Card } from "@/components/ui/card";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { twMerge } from "tailwind-merge";
 
 export interface MatricsCardProps extends HTMLAttributes<HTMLDivElement> {

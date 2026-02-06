@@ -33,11 +33,6 @@ export { Textarea, type TextareaProps } from "./textarea";
 export { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./tooltip";
 export { Toggle } from './toggle'
 export { ToggleGroup, ToggleGroupItem } from './toggle-group'
-export { MatricsCard, type MatricsCardProps } from './matrics-card'
-export { MatricsGroup, MatricsGroupItem, MatricsGroupProps, MatricsGroupItemProps } from './matrics-group';
-export { MatricsPill, MatricsPillProps } from './matrics-pill';
-export { FileUpload, FileUploadProps } from './file-upload';
-export { FileView, FileViewProps } from './file-view';
 
 
 
