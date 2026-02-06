@@ -17,6 +17,15 @@ export {
 export {
     // Alert
     Alert, AlertDescription, AlertTitle, AlertAction,
+    // Avatar
+    Avatar,
+    AvatarImage,
+    AvatarFallback,
+    AvatarGroup,
+    AvatarGroupCount,
+    AvatarBadge,
+    // Thumbnail
+    Thumbnail, type ThumbnailProps, type ThumbnailSize, type ThumbnailAspect,
     // Badge
     Badge,
     // Breadcrumb
