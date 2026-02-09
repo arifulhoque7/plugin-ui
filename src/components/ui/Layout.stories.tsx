@@ -46,6 +46,7 @@ interface LayoutMenuGroupData {
 // Usage: pass items (flat) or groups (sections)
 <LayoutMenu
   groups={groups}
+  activeItemId="dashboard"
   searchable
   onItemClick={(item) => console.log('Clicked', item.id)}
 />`;
@@ -55,21 +56,171 @@ const meta = {
   component: Layout,
   parameters: {
     layout: "fullscreen",
+    controls: {
+      include: [
+        "sidebarPosition",
+        "sidebarVariant",
+        "sidebarBreakpoint",
+        "defaultSidebarOpen",
+        "className",
+      ],
+    },
     docs: {
       description: {
         component:
           "Responsive app layout with optional header, footer, and left/right sidebar. " +
+          "Sidebar is **expandable and collapsible on desktop**: use the header menu button to toggle; when collapsed, the sidebar animates to zero width and main content expands. " +
+          "On mobile, the sidebar behaves as a drawer. " +
           "Sidebar can contain a searchable, multi-label nested menu. " +
           "See the **Menu data structure** story for `LayoutMenuItemData` and `LayoutMenuGroupData` types.",
       },
     },
   },
   tags: ["autodocs"],
+  argTypes: {
+    sidebarPosition: {
+      control: "select",
+      options: ["left", "right", null],
+      description: "Sidebar position: left, right, or null for no sidebar",
+    },
+    sidebarVariant: {
+      control: "select",
+      options: ["drawer", "inline", "overlay"],
+      description: "Sidebar behavior on mobile",
+    },
+    sidebarBreakpoint: {
+      control: "select",
+      options: ["sm", "md", "lg", "xl", "2xl"],
+      description:
+        "Breakpoint at which sidebar is in-flow (desktop). Above this, sidebar can be expanded/collapsed via the header toggle.",
+    },
+    defaultSidebarOpen: {
+      control: "boolean",
+      description:
+        "Initial open state for sidebar (applies to both mobile and desktop). Use true to show sidebar open on load.",
+    },
+    className: {
+      control: "text",
+      description: "Additional CSS classes for the root",
+    },
+    children: {
+      control: false,
+      description: "Layout content (Header, Body, Footer)",
+    },
+  },
 } satisfies Meta<typeof Layout>;
 
 export default meta;
 
 type Story = StoryObj<typeof meta>;
+
+/** Use the Controls panel to change sidebar position, variant, breakpoint, and default open. */
+export const WithControls: Story = {
+  args: {
+    sidebarPosition: "right",
+    sidebarVariant: "drawer",
+    sidebarBreakpoint: "lg",
+    defaultSidebarOpen: true,
+    className: "bg-background",
+  },
+  render: (args) => {
+    const sidebar = args.sidebarPosition ? (
+      <LayoutSidebar>
+        <LayoutMenu groups={sampleGroups} searchable />
+      </LayoutSidebar>
+    ) : null;
+    const main = (
+      <LayoutMain>
+        <p className="text-muted-foreground text-sm">
+          Change props in the Controls panel below. Sidebar position:{" "}
+          {args.sidebarPosition ?? "none"}.
+        </p>
+      </LayoutMain>
+    );
+    return (
+      <Layout
+        key={`sidebar-${args.defaultSidebarOpen}-${args.sidebarPosition ?? "none"}`}
+        {...args}
+      >
+        <LayoutHeader>
+          <span className="font-semibold">Controls demo</span>
+        </LayoutHeader>
+        <LayoutBody>
+          {args.sidebarPosition === "left" ? (
+            <>
+              {sidebar}
+              {main}
+            </>
+          ) : (
+            <>
+              {main}
+              {sidebar}
+            </>
+          )}
+        </LayoutBody>
+        <LayoutFooter>
+          <span className="text-muted-foreground text-sm">Footer</span>
+        </LayoutFooter>
+      </Layout>
+    );
+  },
+};
+
+/**
+ * **Expandable and collapsible sidebar (desktop)**
+ *
+ * On desktop (at and above `sidebarBreakpoint`), the sidebar can be expanded and collapsed:
+ * - Use the **menu icon** in the header to toggle the sidebar.
+ * - When **collapsed**, the sidebar animates to zero width and the main content area expands.
+ * - When **expanded**, the sidebar shows at its configured width (e.g. `w-72`).
+ *
+ * Use `defaultSidebarOpen` to control the initial state (e.g. `true` to start with the sidebar open).
+ * On mobile, the sidebar remains a drawer that overlays content when open.
+ */
+export const ExpandableCollapsibleSidebar: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Demonstrates the sidebar expand/collapse behavior on desktop. Use the menu icon in the header to toggle. " +
+          "When collapsed, the sidebar width animates to zero and main content expands. " +
+          "Resize to mobile to see the drawer behavior.",
+      },
+    },
+  },
+  args: {
+    sidebarPosition: "left",
+    sidebarBreakpoint: "lg",
+    defaultSidebarOpen: false,
+    className: "bg-background",
+  },
+  render: (args) => (
+    <Layout key={`expandable-${args.defaultSidebarOpen}`} {...args}>
+      <LayoutHeader>
+        <span className="font-semibold">Expandable sidebar</span>
+      </LayoutHeader>
+      <LayoutBody>
+        <LayoutSidebar>
+          <LayoutMenu groups={sampleGroups} searchable />
+        </LayoutSidebar>
+        <LayoutMain>
+          <div className="space-y-2 text-sm">
+            <p className="font-medium">Desktop: expandable and collapsible</p>
+            <p className="text-muted-foreground">
+              Click the menu icon in the header to expand or collapse the
+              sidebar. When collapsed, this content area grows to use the full
+              width. Use <strong>defaultSidebarOpen</strong> to start with the
+              sidebar open.
+            </p>
+          </div>
+        </LayoutMain>
+      </LayoutBody>
+      <LayoutFooter>
+        <span className="text-muted-foreground text-sm">Footer</span>
+      </LayoutFooter>
+    </Layout>
+  ),
+};
 
 const sampleNestedItems: LayoutMenuItemData[] = [
   {
@@ -255,6 +406,7 @@ export const FullLayout: Story = {
           <LayoutSidebar className="w-64 lg:w-72">
             <LayoutMenu
               groups={sampleGroups}
+              activeItemId="dashboard"
               searchable
               searchPlaceholder="Search menu…"
               onItemClick={(item) => {
@@ -304,6 +456,34 @@ export const LeftSidebar: Story = {
       <LayoutFooter>
         <span className="text-muted-foreground text-sm">© 2025</span>
       </LayoutFooter>
+    </Layout>
+  ),
+};
+
+/** Customize hover/focus and active (selected) colors via menuItemClassName and activeItemClassName. */
+export const CustomHoverAndActiveStyles: Story = {
+  render: () => (
+    <Layout className="bg-background" sidebarPosition="right">
+      <LayoutHeader>
+        <span className="font-semibold">Custom menu colors</span>
+      </LayoutHeader>
+      <LayoutBody>
+        <LayoutMain>
+          <p className="text-muted-foreground text-sm">
+            Hover and active states use <code>menuItemClassName</code> and{" "}
+            <code>activeItemClassName</code> (e.g. primary colors).
+          </p>
+        </LayoutMain>
+        <LayoutSidebar className="w-64 lg:w-72">
+          <LayoutMenu
+            groups={sampleGroups}
+            activeItemId="users"
+            menuItemClassName="hover:bg-primary/10 hover:text-primary focus-visible:ring-primary"
+            activeItemClassName="bg-primary text-primary-foreground font-medium"
+            searchable
+          />
+        </LayoutSidebar>
+      </LayoutBody>
     </Layout>
   ),
 };

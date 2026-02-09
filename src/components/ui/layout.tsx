@@ -1,13 +1,13 @@
+import { cn } from "@/lib/utils";
+import { Menu, X } from "lucide-react";
 import {
-  forwardRef,
-  type HTMLAttributes,
-  type ReactNode,
   createContext,
+  forwardRef,
   useContext,
   useState,
+  type HTMLAttributes,
+  type ReactNode,
 } from "react";
-import { Menu, X } from "lucide-react";
-import { cn } from "@/lib/utils";
 import { Button } from "./button";
 
 /* ============================================
@@ -105,8 +105,9 @@ export interface LayoutHeaderProps extends HTMLAttributes<HTMLElement> {
 
 export const LayoutHeader = forwardRef<HTMLElement, LayoutHeaderProps>(
   ({ className, children, showSidebarToggle = true, ...props }, ref) => {
-    const { setSidebarOpen, sidebarBreakpoint, sidebarPosition } = useLayout();
-    const hasSidebar = sidebarPosition === "left" || sidebarPosition === "right";
+    const { setSidebarOpen, sidebarPosition } = useLayout();
+    const hasSidebar =
+      sidebarPosition === "left" || sidebarPosition === "right";
     return (
       <header
         ref={ref}
@@ -121,14 +122,9 @@ export const LayoutHeader = forwardRef<HTMLElement, LayoutHeaderProps>(
           <Button
             variant="ghost"
             size="icon"
-            className={cn(
-              "shrink-0",
-              sidebarBreakpoint === "lg" && "lg:hidden",
-              sidebarBreakpoint === "md" && "md:hidden",
-              sidebarBreakpoint === "xl" && "xl:hidden"
-            )}
+            className="shrink-0"
             onClick={() => setSidebarOpen((prev) => !prev)}
-            aria-label="Toggle menu"
+            aria-label="Toggle sidebar"
           >
             <Menu className="size-5" />
           </Button>
@@ -212,7 +208,6 @@ export const LayoutSidebar = forwardRef<HTMLElement, LayoutSidebarProps>(
     const {
       sidebarOpen,
       setSidebarOpen,
-      sidebarVariant,
       sidebarBreakpoint,
       sidebarPosition,
     } = useLayout();
@@ -222,41 +217,55 @@ export const LayoutSidebar = forwardRef<HTMLElement, LayoutSidebarProps>(
     }
 
     const isLeft = sidebarPosition === "left";
+    const bp = sidebarBreakpoint;
     const breakpointClass =
-      sidebarBreakpoint === "lg"
-        ? "lg:translate-x-0 lg:flex"
-        : sidebarBreakpoint === "md"
-          ? "md:translate-x-0 md:flex"
-          : "xl:translate-x-0 xl:flex";
-
-    const isOverlay = sidebarVariant === "overlay";
-    const isDrawer = sidebarVariant === "drawer";
+      bp === "lg" ? "lg:flex" : bp === "md" ? "md:flex" : "xl:flex";
+    const collapseWhenClosed =
+      bp === "lg"
+        ? "lg:w-0 lg:min-w-0 lg:overflow-hidden"
+        : bp === "md"
+        ? "md:w-0 md:min-w-0 md:overflow-hidden"
+        : "xl:w-0 xl:min-w-0 xl:overflow-hidden";
+    const desktopTransition =
+      bp === "lg"
+        ? "lg:transition-[width] lg:duration-200"
+        : bp === "md"
+        ? "md:transition-[width] md:duration-200"
+        : "xl:transition-[width] xl:duration-200";
 
     return (
       <>
-        {/* Backdrop on mobile when sidebar is open: dims background content and closes on click */}
-        {sidebarOpen && (
-          <div
-            className="fixed inset-0 z-40 bg-black/50 lg:hidden"
-            aria-hidden
-            onClick={() => setSidebarOpen(false)}
-          />
-        )}
+        {/* Backdrop on mobile: fades in/out, closes sidebar on click when visible */}
+        <div
+          className={cn(
+            "fixed inset-0 z-40 bg-black/50 lg:hidden",
+            "transition-opacity duration-300 ease-out",
+            sidebarOpen ? "opacity-100" : "pointer-events-none opacity-0"
+          )}
+          aria-hidden
+          onClick={() => setSidebarOpen(false)}
+        />
         <aside
           ref={ref}
           data-slot="layout-sidebar"
           data-side={sidebarPosition}
+          data-open={sidebarOpen || undefined}
           className={cn(
             "flex shrink-0 flex-col bg-muted/30",
             // Mobile: solid background so content behind is not visible
             "max-lg:bg-background max-lg:shadow-xl",
             isLeft ? "border-r border-border" : "border-l border-border",
-            width,
-            // Mobile: fixed, hidden when closed
+            // Mobile: fixed width when drawer is open
+            "max-lg:w-72",
+            // Desktop: width when open, collapse to 0 when closed (expandable/collapsible)
+            sidebarOpen ? width : collapseWhenClosed,
+            desktopTransition,
+            // Mobile: fixed, hidden when closed, smooth slide animation
             "max-lg:fixed max-lg:inset-y-0 max-lg:z-50 max-lg:flex max-lg:flex-col",
             isLeft ? "max-lg:left-0" : "max-lg:right-0",
-            !sidebarOpen && (isLeft ? "max-lg:-translate-x-full" : "max-lg:translate-x-full"),
-            isDrawer && "max-lg:transition-transform max-lg:duration-200",
+            !sidebarOpen &&
+              (isLeft ? "max-lg:-translate-x-full" : "max-lg:translate-x-full"),
+            "max-lg:transition-transform max-lg:duration-300 max-lg:ease-out",
             breakpointClass,
             className
           )}
@@ -272,7 +281,7 @@ export const LayoutSidebar = forwardRef<HTMLElement, LayoutSidebarProps>(
               <X className="size-5" />
             </Button>
           </div>
-          <div className="flex flex-1 flex-col overflow-hidden">
+          <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
             {children}
           </div>
         </aside>

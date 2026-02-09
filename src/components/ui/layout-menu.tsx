@@ -1,14 +1,15 @@
+import { cn } from "@/lib/utils";
+import { ChevronDown, ChevronRight, Search } from "lucide-react";
 import {
   forwardRef,
-  type ReactNode,
-  useMemo,
-  useState,
   useCallback,
-  type KeyboardEvent,
+  useMemo,
+  useRef,
+  useState,
   type HTMLAttributes,
+  type KeyboardEvent,
+  type ReactNode,
 } from "react";
-import { ChevronDown, ChevronRight, Search } from "lucide-react";
-import { cn } from "@/lib/utils";
 import { Input } from "./input";
 
 /* ============================================
@@ -65,8 +66,7 @@ function filterMenuItems(
         : [];
       const selfMatch = matchesSearch(item, query);
       if (selfMatch) return item;
-      if (childMatch.length > 0)
-        return { ...item, children: childMatch };
+      if (childMatch.length > 0) return { ...item, children: childMatch };
       return null;
     })
     .filter(Boolean) as LayoutMenuItemData[];
@@ -99,7 +99,10 @@ export interface LayoutMenuSearchProps
   inputClassName?: string;
 }
 
-export const LayoutMenuSearch = forwardRef<HTMLDivElement, LayoutMenuSearchProps>(
+export const LayoutMenuSearch = forwardRef<
+  HTMLDivElement,
+  LayoutMenuSearchProps
+>(
   (
     {
       value,
@@ -148,6 +151,12 @@ export interface LayoutMenuProps extends HTMLAttributes<HTMLDivElement> {
   /** Search is shown when searchable is true */
   searchable?: boolean;
   searchPlaceholder?: string;
+  /** Id of the currently selected/active item (e.g. current page). Item is styled and has aria-current. */
+  activeItemId?: string | null;
+  /** Class applied to every menu item row. Use to customize hover/focus, e.g. "hover:bg-primary/10 focus-visible:ring-primary". */
+  menuItemClassName?: string;
+  /** Class applied to the active (selected) item. Use to customize active state, e.g. "bg-primary text-primary-foreground". */
+  activeItemClassName?: string;
   /** Called when any menu item row is clicked (parent or leaf). Parent click still toggles expand. */
   onItemClick?: (item: LayoutMenuItemData) => void;
   /** Custom render for each item */
@@ -164,6 +173,9 @@ export const LayoutMenu = forwardRef<HTMLDivElement, LayoutMenuProps>(
       groups,
       searchable = true,
       searchPlaceholder,
+      activeItemId,
+      menuItemClassName,
+      activeItemClassName,
       onItemClick,
       renderItem,
       renderGroupLabel,
@@ -173,6 +185,7 @@ export const LayoutMenu = forwardRef<HTMLDivElement, LayoutMenuProps>(
     ref
   ) => {
     const [search, setSearch] = useState("");
+    const menuContainerRef = useRef<HTMLDivElement>(null);
 
     const filteredItems = useMemo(
       () => (items ? filterMenuItems(items, search) : []),
@@ -181,6 +194,88 @@ export const LayoutMenu = forwardRef<HTMLDivElement, LayoutMenuProps>(
     const filteredGroups = useMemo(
       () => (groups ? filterGroups(groups, search) : []),
       [groups, search]
+    );
+
+    const handleMenuKeyDown = useCallback(
+      (e: React.KeyboardEvent<HTMLDivElement>) => {
+        const target = e.target as HTMLElement;
+        if (target.getAttribute("role") !== "menuitem") return;
+        const container = menuContainerRef.current;
+        if (!container) return;
+
+        const items = Array.from(
+          container.querySelectorAll<HTMLElement>('[role="menuitem"]')
+        );
+        const currentIndex = items.indexOf(target);
+        if (currentIndex === -1) return;
+
+        switch (e.key) {
+          case "ArrowDown":
+            e.preventDefault();
+            if (currentIndex < items.length - 1) {
+              items[currentIndex + 1].focus();
+            }
+            break;
+          case "ArrowUp":
+            e.preventDefault();
+            if (currentIndex > 0) {
+              items[currentIndex - 1].focus();
+            }
+            break;
+          case "ArrowRight": {
+            e.preventDefault();
+            const hasPopup = target.getAttribute("aria-haspopup") === "true";
+            const expanded = target.getAttribute("aria-expanded") === "true";
+            if (hasPopup && !expanded) {
+              (target as HTMLButtonElement).click();
+              setTimeout(() => {
+                const submenu =
+                  target.nextElementSibling?.querySelector<HTMLElement>(
+                    '[role="menuitem"]'
+                  );
+                submenu?.focus();
+              }, 0);
+            } else if (hasPopup && expanded) {
+              const firstChild =
+                target.nextElementSibling?.querySelector<HTMLElement>(
+                  '[role="menuitem"]'
+                );
+              firstChild?.focus();
+            }
+            break;
+          }
+          case "ArrowLeft": {
+            e.preventDefault();
+            const currentUl = target.closest('ul[role="menu"]');
+            const parentLi = currentUl?.parentElement;
+            if (parentLi) {
+              const parentMenuitem = parentLi.querySelector<HTMLElement>(
+                '[role="menuitem"]'
+              );
+              if (parentMenuitem && parentMenuitem !== target) {
+                parentMenuitem.focus();
+                const parentExpanded =
+                  parentMenuitem.getAttribute("aria-expanded") === "true";
+                if (parentExpanded) {
+                  (parentMenuitem as HTMLButtonElement).click();
+                }
+              }
+            }
+            break;
+          }
+          case "Home":
+            e.preventDefault();
+            items[0]?.focus();
+            break;
+          case "End":
+            e.preventDefault();
+            items[items.length - 1]?.focus();
+            break;
+          default:
+            break;
+        }
+      },
+      []
     );
 
     return (
@@ -197,12 +292,21 @@ export const LayoutMenu = forwardRef<HTMLDivElement, LayoutMenuProps>(
             placeholder={searchPlaceholder}
           />
         )}
-        <div className="flex-1 overflow-y-auto overflow-x-hidden">
+        <div
+          ref={menuContainerRef}
+          className="flex-1 overflow-y-auto overflow-x-hidden"
+          role="group"
+          aria-label="Navigation menu"
+          onKeyDown={handleMenuKeyDown}
+        >
           {filteredGroups.length > 0
             ? filteredGroups.map((group) => (
                 <LayoutMenuGroup
                   key={group.id}
                   group={group}
+                  activeItemId={activeItemId}
+                  menuItemClassName={menuItemClassName}
+                  activeItemClassName={activeItemClassName}
                   onItemClick={onItemClick}
                   renderItem={renderItem}
                   renderGroupLabel={renderGroupLabel}
@@ -212,6 +316,9 @@ export const LayoutMenu = forwardRef<HTMLDivElement, LayoutMenuProps>(
                 <LayoutMenuItemList
                   items={filteredItems}
                   depth={0}
+                  activeItemId={activeItemId}
+                  menuItemClassName={menuItemClassName}
+                  activeItemClassName={activeItemClassName}
                   onItemClick={onItemClick}
                   renderItem={renderItem}
                 />
@@ -237,6 +344,9 @@ LayoutMenu.displayName = "LayoutMenu";
 
 interface LayoutMenuGroupInternalProps {
   group: LayoutMenuGroupData;
+  activeItemId?: string | null;
+  menuItemClassName?: string;
+  activeItemClassName?: string;
   onItemClick?: (item: LayoutMenuItemData) => void;
   renderItem?: (item: LayoutMenuItemData, depth: number) => ReactNode;
   renderGroupLabel?: (group: LayoutMenuGroupData) => ReactNode;
@@ -244,15 +354,15 @@ interface LayoutMenuGroupInternalProps {
 
 function LayoutMenuGroup({
   group,
+  activeItemId,
+  menuItemClassName,
+  activeItemClassName,
   onItemClick,
   renderItem,
   renderGroupLabel,
 }: LayoutMenuGroupInternalProps) {
   return (
-    <div
-      data-slot="layout-menu-group"
-      className={cn("py-1", group.className)}
-    >
+    <div data-slot="layout-menu-group" className={cn("py-1", group.className)}>
       <div
         data-slot="layout-menu-group-label"
         className="text-muted-foreground flex flex-col gap-0 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider"
@@ -273,6 +383,9 @@ function LayoutMenuGroup({
       <LayoutMenuItemList
         items={group.items}
         depth={0}
+        activeItemId={activeItemId}
+        menuItemClassName={menuItemClassName}
+        activeItemClassName={activeItemClassName}
         onItemClick={onItemClick}
         renderItem={renderItem}
       />
@@ -287,6 +400,9 @@ function LayoutMenuGroup({
 interface LayoutMenuItemListProps {
   items: LayoutMenuItemData[];
   depth: number;
+  activeItemId?: string | null;
+  menuItemClassName?: string;
+  activeItemClassName?: string;
   onItemClick?: (item: LayoutMenuItemData) => void;
   renderItem?: (item: LayoutMenuItemData, depth: number) => ReactNode;
 }
@@ -294,16 +410,22 @@ interface LayoutMenuItemListProps {
 function LayoutMenuItemList({
   items,
   depth,
+  activeItemId,
+  menuItemClassName,
+  activeItemClassName,
   onItemClick,
   renderItem,
 }: LayoutMenuItemListProps) {
   return (
-    <ul className="list-none px-1 py-0.5" role="list">
+    <ul className="list-none px-1 py-0.5" role="menu">
       {items.map((item) => (
         <LayoutMenuItemNode
           key={item.id}
           item={item}
           depth={depth}
+          activeItemId={activeItemId}
+          menuItemClassName={menuItemClassName}
+          activeItemClassName={activeItemClassName}
           onItemClick={onItemClick}
           renderItem={renderItem}
         />
@@ -319,6 +441,9 @@ function LayoutMenuItemList({
 interface LayoutMenuItemNodeProps {
   item: LayoutMenuItemData;
   depth: number;
+  activeItemId?: string | null;
+  menuItemClassName?: string;
+  activeItemClassName?: string;
   onItemClick?: (item: LayoutMenuItemData) => void;
   renderItem?: (item: LayoutMenuItemData, depth: number) => ReactNode;
 }
@@ -326,6 +451,9 @@ interface LayoutMenuItemNodeProps {
 function LayoutMenuItemNode({
   item,
   depth,
+  activeItemId,
+  menuItemClassName,
+  activeItemClassName,
   onItemClick,
   renderItem,
 }: LayoutMenuItemNodeProps) {
@@ -348,11 +476,12 @@ function LayoutMenuItemNode({
           onItemClick?.(item);
         }
       }
-      if (e.key === "ArrowRight" && hasChildren && !open) setOpen(true);
-      if (e.key === "ArrowLeft" && hasChildren && open) setOpen(false);
+      // ArrowRight / ArrowLeft are handled by the menu container for focus movement
     },
-    [hasChildren, open, item, onItemClick]
+    [hasChildren, item, onItemClick]
   );
+
+  const isActive = activeItemId != null && item.id === activeItemId;
 
   const content = renderItem ? (
     renderItem(item, depth)
@@ -362,6 +491,9 @@ function LayoutMenuItemNode({
       depth={depth}
       hasChildren={hasChildren}
       open={open}
+      isActive={isActive}
+      menuItemClassName={menuItemClassName}
+      activeItemClassName={activeItemClassName}
       onToggle={handleToggle}
       onItemClick={onItemClick}
       onKeyDown={handleKeyDown}
@@ -380,6 +512,9 @@ function LayoutMenuItemNode({
         <LayoutMenuItemList
           items={item.children!}
           depth={depth + 1}
+          activeItemId={activeItemId}
+          menuItemClassName={menuItemClassName}
+          activeItemClassName={activeItemClassName}
           onItemClick={onItemClick}
           renderItem={renderItem}
         />
@@ -397,6 +532,9 @@ interface LayoutMenuItemRowProps {
   depth: number;
   hasChildren: boolean;
   open: boolean;
+  isActive: boolean;
+  menuItemClassName?: string;
+  activeItemClassName?: string;
   onToggle: () => void;
   onItemClick?: (item: LayoutMenuItemData) => void;
   onKeyDown: (e: KeyboardEvent) => void;
@@ -407,6 +545,9 @@ function LayoutMenuItemRow({
   depth,
   hasChildren,
   open,
+  isActive,
+  menuItemClassName,
+  activeItemClassName,
   onToggle,
   onItemClick,
   onKeyDown,
@@ -438,9 +579,18 @@ function LayoutMenuItemRow({
     <Comp
       role="menuitem"
       tabIndex={0}
+      aria-haspopup={hasChildren ? "menu" : undefined}
+      aria-expanded={hasChildren ? open : undefined}
+      aria-current={isActive ? "page" : undefined}
       onKeyDown={onKeyDown}
+      data-active={isActive || undefined}
       className={cn(
-        "hover:bg-accent focus:bg-accent focus:text-accent-foreground flex w-full cursor-pointer items-center gap-2 rounded-md px-2 py-2 text-left text-sm outline-none transition-colors disabled:pointer-events-none disabled:opacity-50",
+        "flex w-full cursor-pointer items-center gap-2 rounded-md px-2 py-2 text-left text-sm outline-none transition-colors disabled:pointer-events-none disabled:opacity-50",
+        "hover:bg-accent hover:text-accent-foreground",
+        "focus:bg-accent focus:text-accent-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+        menuItemClassName,
+        isActive && "bg-accent text-accent-foreground font-medium",
+        isActive && activeItemClassName,
         item.className
       )}
       style={{ paddingLeft: `${paddingLeft}px` }}
@@ -453,16 +603,18 @@ function LayoutMenuItemRow({
       <span className="min-w-0 flex-1">
         <span className="block truncate">{item.label}</span>
         {item.secondaryLabel && (
-          <span className="text-muted-foreground block truncate text-xs">
+          <span
+            className={cn(
+              "block truncate text-xs",
+              isActive ? "opacity-90" : "text-muted-foreground"
+            )}
+          >
             {item.secondaryLabel}
           </span>
         )}
       </span>
       {hasChildren && (
-        <span
-          className="shrink-0 [&_svg]:size-4"
-          aria-expanded={open}
-        >
+        <span className="shrink-0 [&_svg]:size-4" aria-hidden>
           {open ? (
             <ChevronDown className="size-4" />
           ) : (
