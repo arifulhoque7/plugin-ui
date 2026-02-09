@@ -48,10 +48,6 @@ export const globalTypes = {
       icon: 'paintbrush',
       items: [
         { value: 'default', title: 'Default' },
-        { value: 'dokan', title: 'Dokan' },
-        { value: 'blue', title: 'Blue' },
-        { value: 'green', title: 'Green' },
-        { value: 'amber', title: 'Amber' },
         { value: 'amber-minimal', title: 'Amber Minimal' },
         { value: 't3-chat', title: 'T3 Chat' },
         { value: 'midnight-bloom', title: 'Midnight Bloom' },
@@ -79,10 +75,6 @@ export const decorators = [
     
     const themeMap = {
         default: { tokens: Themes.defaultTheme, darkTokens: Themes.defaultDarkTheme },
-        dokan: { tokens: Themes.dokanTheme, darkTokens: Themes.dokanDarkTheme },
-        blue: { tokens: Themes.blueTheme, darkTokens: Themes.blueDarkTheme },
-        green: { tokens: Themes.greenTheme, darkTokens: Themes.greenDarkTheme },
-        amber: { tokens: Themes.amberTheme, darkTokens: Themes.amberDarkTheme },
         'amber-minimal': { tokens: Themes.amberMinimalTheme, darkTokens: Themes.amberMinimalDarkTheme },
         't3-chat': { tokens: Themes.t3ChatTheme, darkTokens: Themes.t3ChatDarkTheme },
         'midnight-bloom': { tokens: Themes.midnightBloomTheme, darkTokens: Themes.midnightBloomDarkTheme },
