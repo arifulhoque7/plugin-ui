@@ -16,56 +16,184 @@ export {
 // ============================================
 export {
     // Alert
-    Alert, AlertDescription, AlertTitle,
+    Alert, AlertAction, AlertDescription, AlertTitle,
+    // AlertDialog
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogMedia,
+    AlertDialogOverlay,
+    AlertDialogPortal,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+    // Avatar
+    Avatar, AvatarBadge, AvatarFallback,
+    AvatarGroup,
+    AvatarGroupCount, AvatarImage,
     // Badge
     Badge,
     badgeVariants,
+    // Breadcrumb
+    Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem,
+    BreadcrumbLink, BreadcrumbList, BreadcrumbPage,
+    BreadcrumbSeparator,
     // Button
     Button,
     // Card
     Card, CardContent, CardDescription, CardFooter, CardHeader,
-    CardTitle,
+    CardTitle, CircularProgress,
+    // Combobox
+    Combobox,
+    ComboboxChip,
+    ComboboxChips,
+    ComboboxChipsInput,
+    ComboboxCollection,
+    ComboboxContent,
+    ComboboxEmpty,
+    ComboboxGroup,
+    ComboboxInput,
+    ComboboxItem,
+    ComboboxLabel,
+    ComboboxList,
+    ComboboxSeparator,
+    ComboboxTrigger,
+    ComboboxValue,
     // Design system (Figma Design-System-for-Plugin)
-    ComponentPreview, DesignSystemSection,
+    ComponentPreview,
     // Currency input (uses InputGroup)
-    CurrencyInput,
+    CurrencyInput, DesignSystemSection,
+    // DropdownMenu
+    DropdownMenu,
+    DropdownMenuCheckboxItem,
+    DropdownMenuContent,
+    DropdownMenuGroup,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuPortal,
+    DropdownMenuRadioGroup,
+    DropdownMenuRadioItem,
+    DropdownMenuSeparator,
+    DropdownMenuShortcut,
+    DropdownMenuSub,
+    DropdownMenuSubContent,
+    DropdownMenuSubTrigger,
+    DropdownMenuTrigger,
+    // Checkbox
+    Checkbox,
+    LabeledCheckbox,
+    CheckboxCard,
+    // Radio
+    RadioGroup,
+    RadioGroupItem,
+    LabeledRadio,
+    RadioCard,
+    // Field
+    Field,
+    FieldLabel,
+    FieldDescription,
+    FieldError,
+    FieldGroup,
+    FieldLegend,
+    FieldSeparator,
+    FieldSet,
+    FieldContent,
+    FieldTitle,
     // Input
     Input,
     InputGroup,
+    InputGroupAddon,
+    InputGroupButton,
+    InputGroupInput,
+    InputGroupText,
+    InputGroupTextarea,
+    // Input OTP
+    InputOTP,
+    InputOTPGroup,
+    InputOTPSeparator,
+    InputOTPSlot,
     // Label
     Label,
     // Modal
     Modal, ModalClose, ModalContent, ModalDescription,
     ModalFooter, ModalHeader, ModalOverlay, ModalTitle,
+    // Notice
+    Notice, NoticeAction, NoticeTitle,
+    // Progress
+    Progress, ProgressIndicator,
+    ProgressLabel, ProgressTrack, ProgressValue,
+    // Select
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectScrollDownButton,
+    SelectScrollUpButton,
+    SelectSeparator,
+    SelectTrigger,
+    SelectValue,
+    // Selection Type
+    SelectionItem,
+    SelectionType,
     // Separator
     Separator,
+    // Slider
+    Slider,
+    // Spinner
+    Spinner,
     // Switch
     Switch,
+    LabeledSwitch,
+    SwitchCard,
+    // Tabs
+    Tabs, TabsContent, TabsList,
+    TabsTrigger,
     // Textarea
     Textarea,
+    // Thumbnail
+    Thumbnail, Toggle,
+    ToggleGroup,
+    ToggleGroupItem,
     // Tooltip
     Tooltip,
     TooltipContent,
     TooltipProvider,
     TooltipTrigger,
-    Toggle,
-    ToggleGroup,
-    ToggleGroupItem,
+    // Utilities
+    useComboboxAnchor,
     // Types
-    type AlertProps,
-    type AlertVariant,
-    type ButtonProps,
-    type ButtonSize,
-    type ButtonVariant,
+    type CardContentProps,
+    type CardDescriptionProps,
+    type CardFooterProps,
+    type CardHeaderProps,
+    type CardProps,
+    type CardTitleProps,
+    type CircularProgressProps,
     type ComponentPreviewProps,
     type CurrencyInputProps,
     type CurrencyOption,
+    type CheckboxProps,
+    type LabeledCheckboxProps,
+    type CheckboxCardProps,
+    type RadioGroupItemProps,
+    type LabeledRadioProps,
+    type RadioCardProps,
     type DesignSystemSectionProps,
-    type InputGroupProps,
-    type InputProps,
-    type LabelProps, type ModalProps, type SeparatorProps,
+    type LabelProps,
+    type ModalProps,
+    type ProgressProps,
+    type SeparatorProps,
+    type SliderProps,
     type SwitchProps,
-    type TextareaProps,
+    type LabeledSwitchProps,
+    type SwitchCardProps,
+    type ThumbnailAspect,
+    type ThumbnailProps,
+    type ThumbnailSize
 } from "./components/ui";
 
 export { MatricsCard, type MatricsCardProps } from './components/matrics-card';
@@ -96,3 +224,4 @@ export {
 // ============================================
 export { cn } from "@/lib/utils";
 export { twMerge } from "tailwind-merge";
+

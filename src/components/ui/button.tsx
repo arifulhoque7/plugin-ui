@@ -1,194 +1,93 @@
-import { forwardRef, type ButtonHTMLAttributes, type ReactNode } from "react";
+import { Button as ButtonPrimitive } from "@base-ui/react/button";
+import { cva, type VariantProps } from "class-variance-authority";
+
 import { cn } from "@/lib/utils";
 
-/**
- * Button variant styles following ShadCN pattern
- */
-const buttonVariants = {
-  variant: {
-    default: "bg-primary text-primary-foreground hover:bg-primary/90 shadow-sm",
-    destructive:
-      "bg-destructive text-destructive-foreground hover:bg-destructive/90 shadow-sm",
-    outline:
-      "border border-input bg-background hover:bg-accent hover:text-accent-foreground shadow-sm",
-    secondary:
-      "bg-secondary text-secondary-foreground hover:bg-secondary/80 shadow-sm",
-    ghost: "hover:bg-accent hover:text-accent-foreground",
-    link: "text-primary underline-offset-4 hover:underline",
-    success: "bg-success text-success-foreground hover:bg-success/90 shadow-sm",
-    warning: "bg-warning text-warning-foreground hover:bg-warning/90 shadow-sm",
-    info: "bg-info text-info-foreground hover:bg-info/90 shadow-sm",
-  },
-  size: {
-    default: "h-9 px-4 py-2",
-    sm: "h-8 rounded-md px-3 text-xs",
-    lg: "h-10 rounded-md px-8",
-    xl: "h-12 rounded-md px-10 text-base",
-    icon: "h-9 w-9",
-  },
-} as const;
-
-export type ButtonVariant = keyof typeof buttonVariants.variant;
-export type ButtonSize = keyof typeof buttonVariants.size;
-
-export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  /**
-   * Button style variant
-   * @default 'default'
-   */
-  variant?: ButtonVariant;
-
-  /**
-   * Button size
-   * @default 'default'
-   */
-  size?: ButtonSize;
-
-  /**
-   * Whether button is in loading state
-   */
-  loading?: boolean;
-
-  /**
-   * Icon to display before children
-   */
-  leftIcon?: ReactNode;
-
-  /**
-   * Icon to display after children
-   */
-  rightIcon?: ReactNode;
-
-  /**
-   * Additional CSS classes
-   */
-  className?: string;
-
-  /**
-   * Button content
-   */
-  children?: ReactNode;
-
-  /**
-   * Make button full width
-   */
-  fullWidth?: boolean;
-}
-
-/**
- * Loading spinner component
- */
-function LoadingSpinner({ className }: { className?: string }) {
-  return (
-    <svg
-      className={cn("animate-spin h-4 w-4", className)}
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-      aria-hidden="true"
-    >
-      <circle
-        className="opacity-25"
-        cx="12"
-        cy="12"
-        r="10"
-        stroke="currentColor"
-        strokeWidth="4"
-      />
-      <path
-        className="opacity-75"
-        fill="currentColor"
-        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-      />
-    </svg>
-  );
-}
-
-/**
- * Button component following ShadCN pattern with plugin theme support
- *
- * @example
- * ```tsx
- * // Basic usage
- * <Button>Click me</Button>
- *
- * // Variants
- * <Button variant="destructive">Delete</Button>
- * <Button variant="outline">Cancel</Button>
- * <Button variant="secondary">Secondary</Button>
- * <Button variant="ghost">Ghost</Button>
- * <Button variant="link">Link</Button>
- *
- * // Sizes
- * <Button size="sm">Small</Button>
- * <Button size="lg">Large</Button>
- * <Button size="icon"><IconComponent /></Button>
- *
- * // With icons
- * <Button leftIcon={<PlusIcon />}>Add Item</Button>
- * <Button rightIcon={<ArrowRightIcon />}>Next</Button>
- *
- * // Loading state
- * <Button loading>Saving...</Button>
- *
- * // Full width
- * <Button fullWidth>Submit</Button>
- * ```
- */
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  (
-    {
-      className,
-      variant = "default",
-      size = "default",
-      loading = false,
-      leftIcon,
-      rightIcon,
-      disabled,
-      fullWidth,
-      children,
-      type = "button",
-      ...props
+const buttonVariants = cva(
+  "focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:aria-invalid:border-destructive/50 rounded-md border border-transparent bg-clip-padding text-sm font-medium focus-visible:ring-[3px] aria-invalid:ring-[3px] [&_svg:not([class*='size-'])]:size-4 inline-flex items-center justify-center whitespace-nowrap transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none shrink-0 [&_svg]:shrink-0 outline-none group/button select-none",
+  {
+    variants: {
+      variant: {
+        default: "bg-primary text-primary-foreground hover:bg-primary/80",
+        secondary:
+          "bg-secondary text-secondary-foreground hover:bg-secondary/80 aria-expanded:bg-secondary aria-expanded:text-secondary-foreground",
+        outline:
+          "border-primary bg-transparent text-primary hover:bg-muted dark:hover:bg-muted/50 aria-expanded:bg-muted",
+        ghost:
+          "hover:bg-muted hover:text-foreground dark:hover:bg-muted/50 aria-expanded:bg-muted aria-expanded:text-foreground",
+        destructive:
+          "bg-destructive text-destructive-foreground hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40",
+        "outline-destructive":
+          "border-destructive bg-transparent text-destructive hover:bg-destructive/10 dark:hover:bg-destructive/20",
+        success:
+          "bg-success text-success-foreground hover:bg-success/90 focus-visible:ring-success/20 dark:focus-visible:ring-success/40",
+        "outline-success":
+          "border-success bg-transparent text-success hover:bg-success/10 dark:hover:bg-success/20",
+        link: "text-primary underline-offset-4 hover:underline",
+      },
+      size: {
+        default:
+          "h-9 gap-1.5 px-2.5 in-data-[slot=button-group]:rounded-md has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2",
+        xs: "h-6 gap-1 rounded-md px-2 text-xs in-data-[slot=button-group]:rounded-md has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3",
+        sm: "h-8 gap-1 rounded-md px-2.5 in-data-[slot=button-group]:rounded-md has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5",
+        lg: "h-10 gap-1.5 px-2.5 has-data-[icon=inline-end]:pr-3 has-data-[icon=inline-start]:pl-3",
+        icon: "size-9",
+        "icon-xs":
+          "size-6 rounded-md in-data-[slot=button-group]:rounded-md [&_svg:not([class*='size-'])]:size-3",
+        "icon-sm": "size-8 rounded-md in-data-[slot=button-group]:rounded-md",
+        "icon-lg": "size-10",
+      },
     },
-    ref,
-  ) => {
-    const isDisabled = disabled || loading;
-
-    return (
-      <button
-        ref={ref}
-        type={type}
-        disabled={isDisabled}
-        className={cn(
-          // Base styles
-          "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium",
-          "transition-colors duration-150",
-          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-          "disabled:pointer-events-none disabled:opacity-50",
-          "[&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
-          // Variant styles
-          buttonVariants.variant[variant],
-          // Size styles
-          buttonVariants.size[size],
-          // Full width
-          fullWidth && "w-full",
-          // Custom classes
-          className,
-        )}
-        {...props}
-      >
-        {loading ? (
-          <LoadingSpinner className="mr-2" />
-        ) : (
-          leftIcon && <span className="shrink-0">{leftIcon}</span>
-        )}
-        {children}
-        {rightIcon && !loading && <span className="shrink-0">{rightIcon}</span>}
-      </button>
-    );
+    defaultVariants: {
+      variant: "default",
+      size: "default",
+    },
   },
 );
 
-Button.displayName = "Button";
+export interface ButtonProps
+  extends ButtonPrimitive.Props,
+    VariantProps<typeof buttonVariants> {
+  progress?: number;
+}
 
-export default Button;
+function Button({
+  className,
+  variant = "default",
+  size = "default",
+  progress,
+  children,
+  disabled,
+  ...props
+}: ButtonProps) {
+  const hasProgress =
+    typeof progress === "number" && progress >= 0 && progress <= 100;
+
+  return (
+    <ButtonPrimitive
+      data-slot="button"
+      className={cn(
+        buttonVariants({ variant, size }),
+        hasProgress && "relative overflow-hidden",
+        className,
+      )}
+      disabled={disabled}
+      {...props}
+    >
+      {/* Progress bar background */}
+      {hasProgress && (
+        <span
+          className="absolute inset-0 bg-primary/20 dark:bg-primary/40 transition-all"
+          style={{
+            width: `${progress}%`,
+          }}
+        />
+      )}
+
+      {/* Content */}
+      {children}
+    </ButtonPrimitive>
+  );
+}
+
+export { Button, buttonVariants };
