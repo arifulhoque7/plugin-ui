@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "@base-ui/react";
 import { Upload } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn, renderIcon } from "@/lib/utils";
 import { Card } from "@/components/ui/card";
 import wpMedia, { IWpMediaData } from "@/lib/WpMedia";
 type FileUploadProps = {
@@ -9,6 +9,7 @@ type FileUploadProps = {
   text?: string,
   description?: string,
   onUpload: (file: IWpMediaData | any | null) => void,
+  icon?: React.ReactNode,
   className?: string,
   variant?: 'button' | 'button-text',
   handlerType?: 'default' | 'custom',
@@ -19,6 +20,7 @@ function FileUpload( {
   text,
   description, 
   onUpload, 
+  icon,
   className, 
   handlerType = 'default', 
   variant = 'button',
@@ -66,7 +68,7 @@ function FileUpload( {
                   <span className="font-medium! text-[14px]! leading-5!">
                     { btnText }
                   </span>
-                  <Upload size={ 16 } />
+                  {renderIcon(icon || Upload, { size: 16 })}
                 </div>
               </Button>
 

@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils";
 import { Badge, Button } from "@/components/ui";
 import { CrownIcon } from "@/components/crown-icon";
 import { Separator } from "@base-ui/react";
+import { renderIcon } from "@/lib/utils";
 
 type TopBarVersion = {
   version: string;
@@ -11,6 +12,7 @@ type TopBarVersion = {
   proBadgeColor?: string;
   proBadgeBorderColor?: string;
   className?: string;
+  icon?: React.ReactNode;
 }
 
 type TopBarProps = {
@@ -30,14 +32,14 @@ function TopBar({className, logo, versions = [], rightSideComponents = <></>}: T
         </div>
         <div className="h-4.25 md:h-full w-auto flex flex-row items-center gap-2.5 mt-0">
           {
-            versions.map(({version, isPro, className, proBadgeBg = '#FFBC00', proBadgeColor = '#000000', proBadgeBorderColor = '#F2A200'}, index) => {
+            versions.map(({version, isPro, className, icon, proBadgeBg = '#FFBC00', proBadgeColor = '#000000', proBadgeBorderColor = '#F2A200'}, index) => {
               let Component = <></>;
               if ( isPro ) {
                 Component = (
                   <Badge variant="outline" className={ cn( 'h-full p-0 md:px-2 md:py-0.5 md:pr-px flex flex-row items-center border-none! md:border! md:border-solid!', className ) }>
                     <span>{version}</span>
                     <span className="h-4 w-4 md:h-6.5 md:w-6.5 flex justify-center items-center rounded-full" style={{backgroundColor: proBadgeBg, color: proBadgeColor, border: '1px solid',borderColor: proBadgeBorderColor}}>
-                    <CrownIcon className="text-card-foreground text-[10px] md:text-[14px]" />
+                    {renderIcon(icon || CrownIcon, { className: "text-card-foreground text-[10px] md:text-[14px]" })}
                   </span>
                   </Badge>
                 );
@@ -69,20 +71,20 @@ function TopBar({className, logo, versions = [], rightSideComponents = <></>}: T
   );
 }
 
-type TopBarProBtnProps = typeof Button & {
+type TopBarProBtnProps = React.ComponentProps<typeof Button> & {
   className?: string;
   upgradeText?: string;
-  children?: React.ReactNode;
+  icon?: React.ReactNode;
   crownIconProps?: React.ComponentProps<typeof CrownIcon>;
 }
 
-const ProBtn = ( { className, children, upgradeText = '', crownIconProps = {}, ...props }: TopBarProBtnProps ) => {
+const ProBtn = ( { className, children, upgradeText = '', icon, crownIconProps = {}, ...props }: TopBarProBtnProps ) => {
   return (
     <Button variant="outline" className={ cn( 'h-full shadow-none outline-none border! border-solid! text-[14px] text-card-foreground bg-[#FFBC00]', className ) } { ...props }>
       {
         children ? children : <>
           { upgradeText }
-          <CrownIcon { ...crownIconProps } />
+          {renderIcon(icon || CrownIcon, crownIconProps)}
         </>
       }
     </Button>

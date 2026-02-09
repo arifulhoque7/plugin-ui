@@ -1,30 +1,30 @@
 import type { HTMLAttributes } from "react";
-import { LucideIcon, Info, MoveDown, MoveUp } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { Info } from "lucide-react";
+import { cn, renderIcon } from "@/lib/utils";
 import { Card } from "@/components/ui/card";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { twMerge } from "tailwind-merge";
 
 export interface MatricsCardProps extends HTMLAttributes<HTMLDivElement> {
-  icon?: LucideIcon;
+  icon?: React.ReactNode | React.ElementType;
   value: string | number | JSX.Element;
   count?: string | number;
   countDirection?: 'up' | 'down' | 'neutral';
   shortDescription: string | JSX.Element;
   tooltip?: string | JSX.Element;
-  tooltipIcon?: LucideIcon;
+  tooltipIcon?: React.ReactNode | React.ElementType;
   onCardClick?: () => void;
 }
 
 export function MatricsCard({
-  icon: Icon = Info,
+  icon = Info,
   value = '',
   count = '',
   countDirection = 'neutral',
   shortDescription = '',
   tooltip = '',
   className = '',
-  tooltipIcon: TooltipIcon = Info,
+  tooltipIcon = Info,
   onCardClick = () => {},
   ...props
 }: MatricsCardProps) {
@@ -37,7 +37,7 @@ export function MatricsCard({
           )}
         >
           {
-            <Icon className="h-6 w-6" />
+            renderIcon(icon, { className: "h-6 w-6" })
           }
         </div>
         <div className="flex flex-col gap-1">
@@ -62,7 +62,7 @@ export function MatricsCard({
               <Tooltip>
                 <TooltipTrigger>
                   {
-                    <TooltipIcon className="h-4 w-4 cursor-help" />
+                    renderIcon(tooltipIcon, { className: "h-4 w-4 cursor-help" })
                   }
                 </TooltipTrigger>
                 <TooltipContent>

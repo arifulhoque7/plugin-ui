@@ -1,7 +1,6 @@
 import React from "react";
 import { Badge } from "@/components/ui/badge";
-import { LucideIcon } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn, renderIcon } from "@/lib/utils";
 
 type MatricsPillProps = {
   className?: string;
@@ -9,17 +8,17 @@ type MatricsPillProps = {
   iconClassName?: string;
   textClassName?: string;
   countClassName?: string;
-  icon: LucideIcon
+  icon: React.ReactNode | React.ElementType
   text: string,
   count: number
 }
 
-function MatricsPill( { className = '', icon: Icon, text, countClassName, count, textClassName, iconClassName, iconWrapperClassName }: MatricsPillProps ) {
+function MatricsPill( { className = '', icon, text, countClassName, count, textClassName, iconClassName, iconWrapperClassName }: MatricsPillProps ) {
   return (
     <Badge variant="outline" className={ cn( 'p-2.5 border! h-auto flex flex-row justify-between gap-2.5', className ) }>
       <span className={ cn( 'flex items-center gap-2' ) }>
         <span className={cn( 'w-5! h-5! ml-2.5 text-muted-foreground', iconWrapperClassName )}>
-          <Icon size={20} className={iconClassName} />
+          {renderIcon(icon, { size: 20, className: iconClassName })}
         </span>
         <span className={cn( 'font-semibold text-[14px]', textClassName )}>{text}</span>
       </span>

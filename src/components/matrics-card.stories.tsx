@@ -37,7 +37,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    icon: Users,
+    icon: <Users />,
     value: "1,234",
     shortDescription: "Total Users",
   },
@@ -45,7 +45,7 @@ export const Default: Story = {
 
 export const WithCountUp: Story = {
   args: {
-    icon: Users,
+    icon: <Users />,
     value: "1,234",
     count: "+12%",
     countDirection: "up",
@@ -55,7 +55,7 @@ export const WithCountUp: Story = {
 
 export const WithCountDown: Story = {
   args: {
-    icon: Users,
+    icon: <Users />,
     value: "1,234",
     count: "-5%",
     countDirection: "down",
@@ -65,10 +65,10 @@ export const WithCountDown: Story = {
 
 export const WithTooltip: Story = {
   args: {
-    icon: Users,
+    icon: <Users />,
     value: "1,234",
     shortDescription: "Total Users",
     tooltip: "This is a tooltip explaining the metric",
-    tooltipIcon: Info,
+    tooltipIcon: <Info />,
   },
 };

@@ -1,27 +1,27 @@
 import * as React from "react";
-import { LucideIcon, Info } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { Info } from "lucide-react";
+import { cn, renderIcon } from "@/lib/utils";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { Card, CardContent } from "@/components/ui/card";
 
 export interface MatricsGroupItemProps extends React.HTMLAttributes<HTMLDivElement> {
-  icon?: LucideIcon;
+  icon?: React.ReactNode | React.ElementType;
   label: string;
   value: string | number;
   change?: string | number;
   changeDirection?: 'up' | 'down' | 'neutral';
   tooltip?: string | React.ReactNode;
-  tooltipIcon?: LucideIcon;
+  tooltipIcon?: React.ReactNode | React.ElementType;
 }
 
 export function MatricsGroupItem({
-  icon: Icon,
+  icon,
   label,
   value,
   change,
   changeDirection = 'neutral',
   tooltip,
-  tooltipIcon: TooltipIcon = Info,
+  tooltipIcon = Info,
   className,
   ...props
 }: MatricsGroupItemProps) {
@@ -34,12 +34,12 @@ export function MatricsGroupItem({
       {...props}
     >
       <div className="flex items-center gap-1">
-        {Icon && <Icon className="h-4.5 w-4.5 text-primary" />}
+        {renderIcon(icon, { className: "h-4.5 w-4.5 text-primary" })}
         <span className="text-[12px] font-normal text-muted-foreground">{label}</span>
         {tooltip && (
           <Tooltip>
             <TooltipTrigger>
-              <TooltipIcon className="h-4 w-4 cursor-help text-muted-foreground" />
+              {renderIcon(tooltipIcon, { className: "h-4 w-4 cursor-help text-muted-foreground" })}
             </TooltipTrigger>
             <TooltipContent>{tooltip}</TooltipContent>
           </Tooltip>
