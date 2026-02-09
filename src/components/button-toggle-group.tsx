@@ -79,9 +79,9 @@ export function ButtonToggleGroup({
             "border! border-border! aria-pressed:border-primary!",
             "aria-pressed:z-10!",
             "aria-pressed:border-l!",
-            "[&:not(:first-child)]:border-l-0!",
-            "group-data-[spacing=0]/toggle-group:first:rounded-l-[5px]!",
-            "group-data-[spacing=0]/toggle-group:last:rounded-r-[5px]!",
+            "not-first:border-l-0!",
+            "group-data-[spacing=0]/toggle-group:first:rounded-l-md!",
+            "group-data-[spacing=0]/toggle-group:last:rounded-r-md!",
             itemClassName
           )}
         >

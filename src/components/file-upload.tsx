@@ -61,7 +61,7 @@ function FileUpload( {
           variant === 'button' && (
             <>
               <Button
-                className="border! border-border p-[6px_16px] rounded-[3px] bg-background cursor-pointer"
+                className="border! border-border p-[6px_16px] rounded-sm bg-background cursor-pointer"
                 onClick={ handle }
               >
                 <div className="flex items-center gap-2">
@@ -83,7 +83,7 @@ function FileUpload( {
           variant === 'button-text' && (
             <div className="flex flex-row gap-2.5">
               <Button
-                className="border! border-primary! text-primary! p-[6px_16px] rounded-[3px] bg-background cursor-pointer"
+                className="border! border-primary! text-primary! p-[6px_16px] rounded-sm bg-background cursor-pointer"
                 onClick={ handle }
               >
                 <span className="font-medium! text-[14px]! leading-5!">
