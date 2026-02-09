@@ -53,9 +53,7 @@ export default function wpMedia(
 ) {
     let fileFrame = null;
 
-    // @ts-expect-error wp.media is not defined in the global scope
     if ( fileFrame ) {
-        // @ts-expect-error fileFrame is not defined in the global scope
         fileFrame.open();
         return;
     }
