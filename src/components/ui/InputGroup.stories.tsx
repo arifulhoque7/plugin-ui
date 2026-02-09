@@ -6,7 +6,6 @@ import {
   InputGroupInput,
   InputGroupText,
 } from "./input-group";
-import { Button } from "./button";
 import { Spinner } from "./spinner";
 import { LoaderIcon } from "lucide-react";
 
