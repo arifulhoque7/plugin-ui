@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "storybook/test";
 import { MatricsCard } from "./matrics-card";
-import { Users, Info, TrendingUp, TrendingDown } from "lucide-react";
+import { Users, Info } from "lucide-react";
 import React from "react";
 
 const meta = {

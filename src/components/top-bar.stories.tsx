@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { TopBar } from "./top-bar";
 import { Button } from "./ui/button";
-import { LogOut, Settings, User } from "lucide-react";
+import { Settings, User } from "lucide-react";
 import React from "react";
 
 const meta = {

@@ -3,12 +3,12 @@ import { Button } from "@base-ui/react";
 import { Upload } from "lucide-react";
 import { cn, renderIcon } from "@/lib/utils";
 import { Card } from "@/components/ui/card";
-import wpMedia, { IWpMediaData } from "@/lib/WpMedia";
+import wpMedia, { IWpMedia, IWpMediaData } from "@/lib/WpMedia";
 type FileUploadProps = {
   btnText?: string;
   text?: string,
   description?: string,
-  onUpload: (file: IWpMediaData | any | null) => void,
+  onUpload: (file: IWpMedia | IWpMediaData | null) => void,
   icon?: React.ReactNode,
   className?: string,
   variant?: 'button' | 'button-text',
@@ -26,9 +26,9 @@ function FileUpload( {
   variant = 'button',
 }: FileUploadProps ) {
   const fileInputRef = React.useRef<HTMLInputElement>(null);
-  const [isDragging, setIsDragging] = React.useState(false);
+  const [isDragging] = React.useState(false);
 
-  const handle = (e?: React.MouseEvent | React.ChangeEvent) => {
+  const handle = (_e?: React.MouseEvent | React.ChangeEvent) => {
     if (handlerType === 'default') {
       wpMedia( onUpload );
     } else {

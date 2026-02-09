@@ -3,7 +3,6 @@ import { Info } from "lucide-react";
 import { cn, renderIcon } from "@/lib/utils";
 import { Card } from "@/components/ui/card";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { twMerge } from "tailwind-merge";
 
 export interface MatricsCardProps extends HTMLAttributes<HTMLDivElement> {
   icon?: React.ReactNode | React.ElementType;

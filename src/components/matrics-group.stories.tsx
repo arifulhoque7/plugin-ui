@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { MatricsGroup, MatricsGroupItem } from "./matrics-group";
-import { Users, CreditCard, ArrowUpRight, ArrowDownRight, Info } from "lucide-react";
+import { Users, CreditCard, ArrowUpRight, ArrowDownRight } from "lucide-react";
 import React from "react";
 
 const meta = {

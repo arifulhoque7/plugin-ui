@@ -53,9 +53,9 @@ export default function wpMedia(
 ) {
     let fileFrame = null;
 
-    // @ts-ignore
+    // @ts-expect-error wp.media is not defined in the global scope
     if ( fileFrame ) {
-        // @ts-ignore
+        // @ts-expect-error fileFrame is not defined in the global scope
         fileFrame.open();
         return;
     }
@@ -69,7 +69,7 @@ export default function wpMedia(
         multiple: false,
     };
 
-    // @ts-ignore
+    // @ts-expect-error wp.media is not defined in the global scope
     fileFrame = media ? media : wp.media( mediaOptions );
 
     fileFrame.on( 'select', () => {
