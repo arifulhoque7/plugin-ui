@@ -205,6 +205,7 @@ export {
 } from './components/logo';
 export { TopBar, type TopBarProps } from './components/top-bar'
 export { CrownIcon, type CrownIconProps } from './components/crown-icon'
+export { ButtonToggleGroup, type ButtonToggleGroupProps, type ButtonToggleGroupItem } from './components/button-toggle-group'
 
 // ============================================
 // Theme Presets
