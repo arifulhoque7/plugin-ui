@@ -498,13 +498,33 @@ export function SwitchField({ element, onChange, ...rest }: FieldComponentProps)
     }
   };
 
+  // Optional decorative badge rendered beside the control. Generic: any field
+  // can opt in via `element.badge` (a plain label string, or an object for a
+  // custom variant/classes) — e.g. a "Automated" tag on a read-only method.
+  const badge =
+    typeof element.badge === "string"
+      ? { label: element.badge }
+      : (element.badge as
+          | { label: string; variant?: string; className?: string }
+          | undefined);
+
   return (
     <FieldWrapper element={element} {...rest}>
-      <Switch
-        checked={isEnabled}
-        onCheckedChange={handleChange}
-        disabled={element.disabled}
-      />
+      <div className="flex items-center gap-3">
+        {badge?.label && (
+          <Badge
+            variant={(badge.variant as never) ?? "secondary"}
+            className={cn("px-3 h-6 rounded-full font-medium", badge.className)}
+          >
+            {badge.label}
+          </Badge>
+        )}
+        <Switch
+          checked={isEnabled}
+          onCheckedChange={handleChange}
+          disabled={element.disabled}
+        />
+      </div>
     </FieldWrapper>
   );
 }

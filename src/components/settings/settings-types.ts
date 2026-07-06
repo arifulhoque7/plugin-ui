@@ -119,6 +119,13 @@ export type SettingsElement = {
     /** Section-only: initial collapsed state when `collapsible` is true. */
     collapsed?: boolean;
 
+    /**
+     * Decorative badge rendered beside the field control (e.g. an "Automated"
+     * tag on a read-only method). A plain string is the label; the object form
+     * allows a custom Badge variant / classes.
+     */
+    badge?: string | { label: string; variant?: string; className?: string };
+
     // Validation error (runtime)
     validationError?: string;
 
